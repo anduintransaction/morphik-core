@@ -98,6 +98,8 @@ class Settings(BaseSettings):
     STORAGE_PATH: Optional[str] = None
     AWS_REGION: Optional[str] = None
     S3_BUCKET: Optional[str] = None
+    S3_ENDPOINT: Optional[str] = None
+    S3_USE_SIG_V4: bool = False
 
     # Vector store configuration
     VECTOR_STORE_PROVIDER: Literal["pgvector", "qdrant"]
@@ -263,6 +265,8 @@ def get_settings() -> Settings:
                 {
                     "AWS_REGION": config["storage"]["region"],
                     "S3_BUCKET": config["storage"]["bucket_name"],
+                    "S3_ENDPOINT": config["storage"].get("s3_endpoint", None),
+                    "S3_USE_SIG_V4": config["storage"].get("s3_use_sig_v4", False),
                     "AWS_ACCESS_KEY": os.environ["AWS_ACCESS_KEY"],
                     "AWS_SECRET_ACCESS_KEY": os.environ["AWS_SECRET_ACCESS_KEY"],
                 }

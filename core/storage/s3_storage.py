@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import BinaryIO, Optional, Tuple, Union
 
 import boto3
+from botocore.config import Config
 from botocore.exceptions import ClientError
 
 from .base_storage import BaseStorage
@@ -23,12 +24,16 @@ class S3Storage(BaseStorage):
         aws_secret_key: str,
         region_name: str = "us-east-2",
         default_bucket: str = "morphik-storage",
+        endpoint_url: Optional[str] = None,
+        use_sig_v4: bool = False,
     ):
         self.default_bucket = default_bucket
         self.s3_client = boto3.client(
             "s3",
+            endpoint_url=endpoint_url,
             aws_access_key_id=aws_access_key,
             aws_secret_access_key=aws_secret_key,
+            config=Config(signature_version="s3v4") if use_sig_v4 else None,
             region_name=region_name,
         )
 

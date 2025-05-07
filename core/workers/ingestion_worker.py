@@ -552,6 +552,8 @@ async def startup(ctx):
             aws_secret_key=settings.AWS_SECRET_ACCESS_KEY,
             region_name=settings.AWS_REGION,
             default_bucket=settings.S3_BUCKET,
+            endpoint_url=settings.S3_ENDPOINT,
+            use_sig_v4=settings.S3_USE_SIG_V4,
         )
     else:
         raise ValueError(f"Unsupported storage provider: {settings.STORAGE_PROVIDER}")
